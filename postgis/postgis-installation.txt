@@ -1,0 +1,108 @@
+ssh -i ~/.ssh/robert-donaway-IAM-keypair.pem centos@ec2-34-222-143-9.us-west-2.compute.amazonaws.com
+(note: not root)
+
+sudo rpm -ivh https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+
+needed to do sudo on most of the following...
+
+sudo yum install postgresql95 postgresql95-server postgresql95-libs postgresql95-contrib postgresql95-devel
+
+sudo passwd postgres (changed it to #C...33)
+
+sudo /usr/pgsql-9.5/bin/postgresql95-setup initdb
+
+---> START SERVICE ---> sudo service postgresql-9.5 start
+
+sudo su - postgres
+cd ~/
+/usr/pgsql-9.5/bin/psql -p 5432 -c "CREATE EXTENSION adminpack;"
+
+...back as centos user...
+
+sudo yum -y install epel-release
+sudo yum install postgis25_11
+
+sudo yum install ogr_fdw95
+sudo yum install pgrouting_95
+
+sudo su - postgres
+/usr/pgsql-9.5/bin/psql -p 5432
+CREATE DATABASE sfmta;
+\connect sfmta;
+
+CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;
+CREATE EXTENSION ogr_fdw;
+-- Enable PostGIS Advanced 3D
+-- and other geoprocessing algorithms
+-- sfcgal not available with all distributions
+CREATE EXTENSION postgis_sfcgal;
+-- fuzzy matching needed for Tiger
+CREATE EXTENSION fuzzystrmatch;
+-- rule based standardizer
+CREATE EXTENSION address_standardizer;
+-- example rule data set
+CREATE EXTENSION address_standardizer_data_us;
+-- Enable US Tiger Geocoder
+CREATE EXTENSION postgis_tiger_geocoder;
+
+
+select postgis_full_version();
+postgis_full_version
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ POSTGIS="3.0.0alpha2 r17458" [EXTENSION] PGSQL="95" GEOS="3.7.1-CAPI-1.11.1 27a5e771" SFCGAL="1.3.1" PROJ="Rel. 4.9.3, 15 August 2016" LIBXML="2.9.1" LIBJSON="0.11" TOPOLOGY
+
+CREATE USER insight WITH PASSWORD '#Bu...3#3';
+GRANT ALL PRIVILEGES ON DATABASE sfmta TO insight;
+-- (will use this user to create tables, etc.)
+
+configuration files are in /var/lib/pgsql/9.5/data
+edited postgresql.conf, changed 
+	listen_addresses = *
+	port = 5217
+	max connections = 20
+
+edited pg_hba.conf, changed
+host sfmta insight 12.131.20.202/32 md5
+host sfmta insight 67.180.196.58/32 md5
+
+as centos, sudo service postgresql-9.5 restart
+
+-- install python
+sudo yum install -y https://centos7.iuscommunity.org/ius-release.rpm
+sudo yum update
+sudo yum install -y python36u python36u-libs python36u-devel python36u-pip
+
+sudo pip3.6 install --upgrade pip
+pip3.6 install awscli --upgrade --user
+
+aws configure .../...
+
+
+aws s3 cp s3://insight-donaway-sfmta-data/sfmtaAVLRawData01012013.csv sfmtaAVLRawData01012013.csv
+
+-- create table (see file)
+
+/usr/pgsql-9.5/bin/psql -p 5217 -d sfmta -U insight
+
+--from another machine should be able to do this:
+/usr/pgsql-9.5/bin/psql -h 10.0.0.5 -d sfmta -U insight -p 5217
+
+--from the same machine, should be able to do this:
+/usr/pgsql-9.5/bin/psql -h 127.0.0.1 -d sfmta -U insight -p 5217
+
+needed to change /var/lib/pgsql/9.5/data/pg_hba.conf to use md5
+local   all             all                                    md5
+# IPv4 local connections:
+host    all             all             127.0.0.1/32           md5
+# IPv6 local connections:
+host    all             all             ::1/128                md5
+
+
+sudo yum install screen
+
+created a file .pgpass in centos' home folder containing...
+127.0.0.1:5217:sfmta:insight:(the password)
+
+(needs to be readable only by user)
+

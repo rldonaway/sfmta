@@ -1,0 +1,35 @@
+Spark installation
+
+spun up 4 Ubuntu m4.large EC2 instances
+
+security group configuration allows all traffic within the security group
+
+sudo apt update
+sudo apt install openjdk-8-jdk
+
+--test using java -version
+
+--set java home path
+
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+--check that it worked
+echo $JAVA_HOME
+
+export PATH=$PATH:$JAVA_HOME/bin
+
+--on master...
+sudo apt install openssh-server openssh-client
+
+cd ./.ssh
+ssh-keygen -t rsa -P ""
+-- enter file name id_rsa
+
+cat id_rsa.pub
+copy it
+
+nano ./.ssh/authorized_keys
+paste the key at the bottom
+
+--now from master try logging in to a worker
+ssh -i ~/.ssh/id_rsa ubuntu@10.0.0.4
