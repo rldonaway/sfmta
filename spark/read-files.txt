@@ -1,0 +1,84 @@
+/usr/local/spark/bin/spark-shell
+
+val somefile = spark.read.text("s3a://insight-donaway-sfmta-data/sfmtaAVLRawData01012013.csv")
+
+//first row:
+somefile.head()
+somefile.first()
+
+//first 20 rows
+somefile.show()
+
+//show columns, etc.
+somefile.printSchema()
+
+//show how many partitions
+somefile.rdd.getNumPartitions 
+
+//takes off the header part; note this is how you get to column 1
+noblanks.first.getString(0).substring(89)
+
+// easier way to query?
+val results = spark.sql("SELECT name FROM people")
+
+// way to add a new column by removing the first character of another column
+val SSDF = testDF.withColumn("newcol", substring($"col", 1, length($"col")-1))
+
+// didn't work
+val noheader = noblanks.map(_ => (_.replaceAll("REV,REPORT_TIME,VEHICLE_TAG,LONGITUDE,LATITUDE,SPEED,HEADING,TRAIN_ASSIGNMENT,PREDICTABLE","")))
+
+
+notes from demo...
+"Your engineering challenge will be the calculations."
+"No data is stored in Spark, it's only processing."
+
+
+-- want to check connectivity with database...
+sudo apt-get install postgresql-client
+psql -h 10.0.0.24 -d sfmta -U insight -p 5217
+works!
+
+/usr/local/spark/bin/spark-shell
+scala> :require postgresql-42.2.5.jar
+
+# check...
+Class.forName("org.postgresql.Driver") != null
+
+val url = "jdbc:postgresql://10.0.0.24:5217/sfmta"
+import java.util.Properties
+val connectionProperties = new Properties()
+connectionProperties.setProperty("Driver", "org.postgresql.Driver")
+connectionProperties.setProperty("user", "insight");
+connectionProperties.setProperty("password", "xxxx");
+
+// reading a dataframe from the database... will need later
+val personDf = spark.read.jdbc(url, "select * from blah", connectionProperties)
+
+import org.apache.spark.sql.Column
+def removeHeader(col: Column): Column = {
+  regexp_replace(col, "REV,REPORT_TIME,VEHICLE_TAG,LONGITUDE,LATITUDE,SPEED,HEADING,TRAIN_ASSIGNMENT,PREDICTABLE", "")
+}
+
+val rawfile = spark.read.text("s3a://insight-donaway-sfmta-data/sfmtaAVLRawData*.csv")
+val noblanks = rawfile.filter("value != ''")
+val cleaned = noblanks.withColumn("clean_value", removeHeader(col("value")))
+val expanded = cleaned.withColumn("_list", split($"clean_value", ",")).select(
+    $"_list".getItem(0).as("rev"),
+    $"_list".getItem(1).as("report_time"),
+    $"_list".getItem(2).as("vehicle_tag"),
+    $"_list".getItem(3).as("longitude"),
+    $"_list".getItem(4).as("latitude"),
+    $"_list".getItem(5).as("speed"),
+    $"_list".getItem(6).as("heading"),
+    $"_list".getItem(7).as("train_assignment"),
+    $"_list".getItem(8).as("predictable")
+  ).drop("_list")
+val tosave = expanded.drop("value")
+
+import org.apache.spark.sql.SaveMode;
+tosave.write.mode(SaveMode.Overwrite).jdbc("jdbc:postgresql://10.0.0.24:5217/sfmta", "sfmta_avl_stg", connectionProperties)
+
+:reset (to get rid of one-file versions of the variables so I can use them again for the full data set)
+
+rawfile.count # taking a long time... wanted to know how many rows
+

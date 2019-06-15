@@ -5,6 +5,11 @@ spun up 4 Ubuntu m4.large EC2 instances
 security group configuration allows all traffic within the security group
 
 sudo apt update
+
+sudo apt-get update        # Fetches the list of available updates
+sudo apt-get upgrade       # Strictly upgrades the current packages
+sudo apt-get dist-upgrade  # Installs updates (new ones)
+
 sudo apt install openjdk-8-jdk
 
 --test using java -version
@@ -33,3 +38,97 @@ paste the key at the bottom
 
 --now from master try logging in to a worker
 ssh -i ~/.ssh/id_rsa ubuntu@10.0.0.4
+
+
+-- install Scala
+sudo apt install scala
+
+-- check Scala version
+scala -version
+(Scala code runner version 2.11.12 -- Copyright 2002-2017, LAMP/EPFL)
+
+-- download Spark
+wget http://apache.claz.org/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz
+
+-- extract
+tar xvf spark-2.4.3-bin-hadoop2.7.tgz
+
+-- move into place
+sudo mv spark-2.4.3-bin-hadoop2.7/ /usr/local/spark
+
+vi ~/.bash_profile
+-- paste: export PATH=/usr/local/spark/bin:$PATH
+
+source ~/.bash_profile
+
+vi /usr/local/spark/conf/spark-env.sh
+-- paste in
+export SPARK_MASTER_HOST=10.0.0.20
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+vi /usr/local/spark/conf/slaves
+-- paste in
+10.0.0.21
+10.0.0.22
+10.0.0.29
+
+NOT:
+34.209.250.231
+34.217.11.209
+34.210.200.156
+
+-- oversubscription
+vi /usr/local/spark/conf/spark-env.sh
+-- append:
+export SPARK_WORKER_CORES=6
+
+sh /usr/local/spark/sbin/start-all.sh
+(had to put public IPs in the security group)
+
+--to stop...
+sh /usr/local/spark/sbin/stop-all.sh
+
+getting Spark to work with S3
+1) download the required jars:
+    a) create a folder under /usr/local/spark called lib (or whatever you want to call it and wherever you want to create it...I'll use this for the example)
+    b) download the following files to that folder:
+
+    - wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-sdk-1.7.4.jar
+    - wget http://central.maven.org/maven2/org/apache/hadoop/hadoop-aws/2.7.1/hadoop-aws-2.7.1.jar
+
+2) change spark default conf file:
+    a) it probably doesn't exist, so rename spark-defaults.conf.template to spark-defaults.conf (this is under folder /conf inside spark folder)
+    b) add the following lines to spark-defaults.conf:
+
+    - spark.executor.extraClassPath /usr/local/spark/lib/aws-java-sdk-1.7.4.jar:/usr/local/spark/lib/hadoop-aws-2.7.1.jar
+    - spark.driver.extraClassPath /usr/local/spark/lib/aws-java-sdk-1.7.4.jar:/usr/local/spark/lib/hadoop-aws-2.7.1.jar
+3) add your AWS credentials to the env (in any way you want) - they should persist for future sessions though!
+
+    - export AWS_ACCESS_KEY_ID=xxxxx
+- export AWS_SECRET_ACCESS_KEY=xxxxxx
+4) restart spark
+
+I could only make it work with S3A. example: df = spark.read.text("s3a://nmduartegdelt/nuno.txt")
+
+
+-- learn about Spark
+https://invidio.us/watch?time_continue=2&v=Mxr408U_gqo
+https://supergloo.com/spark-tutorial/spark-tutorials-python/
+
+
+
+want to put into a bootup script:
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export PATH=$PATH:$JAVA_HOME/bin
+export AWS_ACCESS_KEY_ID=xxxxx
+export AWS_SECRET_ACCESS_KEY=xxxxxx
+
+
+
+-- need JDBC driver to access PostgreSQL
+wget https://jdbc.postgresql.org/download/postgresql-42.2.5.jar
+
+... coped the jar into /usr/local/spark/lib
+... changed the spark-defaults.conf to include the postgres jar on the classpath
+... hopefully this will allow it to find the driver automatically
+
