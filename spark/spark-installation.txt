@@ -128,7 +128,7 @@ export AWS_SECRET_ACCESS_KEY=xxxxxx
 -- need JDBC driver to access PostgreSQL
 wget https://jdbc.postgresql.org/download/postgresql-42.2.5.jar
 
-... coped the jar into /usr/local/spark/lib
+... copied the jar into /usr/local/spark/lib
 ... changed the spark-defaults.conf to include the postgres jar on the classpath
 ... hopefully this will allow it to find the driver automatically
 

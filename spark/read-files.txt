@@ -81,4 +81,4 @@ tosave.write.mode(SaveMode.Overwrite).jdbc("jdbc:postgresql://10.0.0.24:5217/sfm
 :reset (to get rid of one-file versions of the variables so I can use them again for the full data set)
 
 rawfile.count # taking a long time... wanted to know how many rows
-
+2,912,674,010
