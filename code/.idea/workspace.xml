@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d9819b4a-bcac-4d30-87b4-893f38d6d07d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicle.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/sfmta.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/sfmta.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sample/sample-instructions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sample/sample-instructions.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/ingestion/ingest.sc" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/ingestion/ingest.sc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../postgis/create-tables.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../postgis/create-tables.sql" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -84,8 +81,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/ingestion/ingest.sc">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+            <state relative-caret-position="300">
+              <caret line="20" selection-start-line="20" selection-end-line="20" />
             </state>
           </provider>
         </entry>
@@ -93,8 +90,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicle.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="483">
-              <caret line="45" column="4" selection-start-line="45" selection-start-column="4" selection-end-line="45" selection-end-column="4" />
+            <state relative-caret-position="315">
+              <caret line="21" column="47" lean-forward="true" selection-start-line="21" selection-start-column="47" selection-end-line="21" selection-end-column="47" />
               <folding>
                 <element signature="e#55#80#0" expanded="true" />
               </folding>
@@ -143,6 +140,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -228,8 +227,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -323,12 +320,13 @@
       <workItem from="1560815194244" duration="12000" />
       <workItem from="1560880388183" duration="9217000" />
       <workItem from="1560910867475" duration="230000" />
-      <workItem from="1560959088285" duration="10231000" />
+      <workItem from="1560959088285" duration="11137000" />
+      <workItem from="1561043688764" duration="772000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34458000" />
+    <option name="totallyTimeSpent" value="36136000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="18" y="23" width="1654" height="782" extended-state="0" />
@@ -340,7 +338,7 @@
       <window_info id="Favorites" order="3" sideWeight="0.5026178" side_tool="true" weight="0.25" />
       <window_info id="Learn" order="4" />
       <window_info id="Designer" order="5" />
-      <window_info active="true" content_ui="combo" id="Project" order="6" sideWeight="0.4973822" visible="true" weight="0.27171215" />
+      <window_info active="true" content_ui="combo" id="Project" order="6" sideWeight="0.4973822" visible="true" weight="0.2748139" />
       <window_info id="Structure" order="7" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="sbt-shell-toolwindow" order="0" weight="0.3290398" />
       <window_info anchor="bottom" id="Terminal" order="1" />
@@ -410,6 +408,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/build.sbt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sample/sample-instructions.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -419,22 +424,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/ingestion/ingest.sc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.sbt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
+        <state relative-caret-position="300">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicle.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="45" column="4" selection-start-line="45" selection-start-column="4" selection-end-line="45" selection-end-column="4" />
+        <state relative-caret-position="315">
+          <caret line="21" column="47" lean-forward="true" selection-start-line="21" selection-start-column="47" selection-end-line="21" selection-end-column="47" />
           <folding>
             <element signature="e#55#80#0" expanded="true" />
           </folding>

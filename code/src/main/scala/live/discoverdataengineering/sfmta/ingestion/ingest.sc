@@ -13,6 +13,8 @@ into PostgreSQL. These are the detailed steps:
 
 // set up properties for connecting to database
 import java.util.Properties
+
+import org.apache.spark.SparkContext
 import org.apache.spark.sql._
 import org.apache.spark.sql.functions._
 
