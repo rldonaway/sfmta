@@ -81,7 +81,21 @@ CREATE TABLE sfmta_avl
 , longitude        double precision
 , located_at       geography(point)
 );
--- after data is inserted, SET located_at = ST_POINT(latitude, longitude);
+-- if needed, add column located_at       geography(point) [or geometrty?]
+-- then SET located_at = ST_POINT(latitude, longitude);
+
+CREATE INDEX sfmta_avl_report_time_idx ON sfmta_avl(report_time);
+CREATE INDEX sfmta_avl_vehicle_tag_idx ON sfmta_avl(vehicle_tag);
+CREATE INDEX sfmta_avl_speed_idx ON sfmta_avl(speed);
+CREATE INDEX sfmta_avl_train_assignment_idx ON sfmta_avl(train_assignment);
+
+CREATE MATERIALIZED VIEW vehicles
+AS
+SELECT DISTINCT vehicle_tag FROM sfmta_avl;
+
+CREATE MATERIALIZED VIEW train_assignments
+AS
+SELECT DISTINCT train_assignment FROM sfmta_avl;
 
 INSERT INTO sfmta_avl(rev, report_time, vehicle_tag, latitude, longitude, speed, heading, train_assignment, predictable)
 SELECT 
@@ -106,18 +120,4 @@ FROM sfmta_avl_stg;
 
 --INSERT 0 1456337028
 
-CREATE INDEX sfmta_avl_report_time_idx ON sfmta_avl(report_time);
-CREATE INDEX sfmta_avl_vehicle_tag_idx ON sfmta_avl(vehicle_tag);
-CREATE INDEX sfmta_avl_speed_idx ON sfmta_avl(speed);
-CREATE INDEX sfmta_avl_train_assignment_idx ON sfmta_avl(train_assignment);
-
-CREATE MATERIALIZED VIEW vehicles
-AS
-SELECT DISTINCT vehicle_tag FROM sfmta_avl
-WITH DATA;
-
-CREATE MATERIALIZED VIEW train_assignments
-AS
-SELECT DISTINCT train_assignment FROM sfmta_avl
-WITH DATA;
 
