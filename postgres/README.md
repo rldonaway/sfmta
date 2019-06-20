@@ -1,4 +1,4 @@
-# postgis
+# postgres
 
 ## Code to create and insert data into the database
 
