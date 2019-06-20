@@ -1,3 +1,4 @@
+-- created from Spark dataframe...
 CREATE TABLE sfmta_avl_stg
 ( rev              VARCHAR(12)
 , report_time      VARCHAR(20)
@@ -10,9 +11,6 @@ CREATE TABLE sfmta_avl_stg
 , predictable      VARCHAR(5)
 );
 
-
-
---check this in
 
 CREATE ROLE sfmta;
 GRANT sfmta TO insight;
@@ -63,9 +61,13 @@ sfmta=> select min(latitude), max(latitude), min(longitude), max(longitude) from
  24.03971 | 85.58866 | 0.0 | -99.99997
 (1 row)
 
---whoops need to take care of those out of bounds values
--- but first let's get the data into the regular table
+--whoops need to take care of those out of bounds values... use the bus stop locations as a guide
+select min(stop_lat), max(stop_lat), min(stop_lon), max(stop_lon) from sfmta_stops;
+    min    |    max    |    min     |    max
+-----------+-----------+------------+------------
+ 37.705764 | 37.836443 | -122.53867 | -122.36633
 
+--put data into perm table
 CREATE TABLE sfmta_avl
 ( reading_id       bigserial PRIMARY KEY
 , rev              varchar(50)
@@ -109,37 +111,13 @@ CREATE INDEX sfmta_avl_vehicle_tag_idx ON sfmta_avl(vehicle_tag);
 CREATE INDEX sfmta_avl_speed_idx ON sfmta_avl(speed);
 CREATE INDEX sfmta_avl_train_assignment_idx ON sfmta_avl(train_assignment);
 
-can do now --import data into other tables that are related to sfmta_avl
-after indexes --create materialized view for list of vehicles
---create materialized view for list of train assignments 
-CREATE MATERIALIZED VIEW view_name
+CREATE MATERIALIZED VIEW vehicles
 AS
-query
+SELECT DISTINCT vehicle_tag FROM sfmta_avl
 WITH DATA;
 
---window function query
+CREATE MATERIALIZED VIEW train_assignments
+AS
+SELECT DISTINCT train_assignment FROM sfmta_avl
+WITH DATA;
 
-select reading_id, max(report_time) over (partition by vehicle_tag where speed > 0)
-from sfmta_avl
-where speed = 0
-
---doesn't look like a where is supported
-
-for a given row with vehicle_tag vt and report_time rt and speed = 0
-select max(report_time) from sfmta_avl where report_time < rt and vehicle_tag = vt and speed > 0
- --subquery?
-
-select stpd.vt, stpd.rt, max(mvng.report_time)
-from (
- select vehicle_tag vt, report_time rt
- from sfmta_avl
- where speed = 0
-) stpd 
-join sfmta_avl mvng on stpd.vt = mvng.vehicle_tag and stpd.rt > mvng.report_time and mvng.speed > 0
-
---question: is vehicle_tag, report_time an alternate key for the table?
-
---so what we have, for each time a vehicle is stopped, is the last time it was moving (LMT)
---so for any time a vehicle is stopped, we can calculate the elapsed time between the LMT and the current time. this is the length of time stopped.
-
---- put length of time stopped in a sep. column or table?

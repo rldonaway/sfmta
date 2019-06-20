@@ -7,7 +7,9 @@ Note the name of the generated jar; (sfmta_2.12-0.1.jar)
 
 4. Log on to the Spark master machine and call the “spark-submit” script with the appropriate –master arg value.
 
-/usr/local/spark/bin/spark-submit --class "live.discoverdataengineering.sample.SparkPi" --master spark://ip-10-0-0-20.us-west-2.compute.internal:7077 --conf "spark.executor.extraJavaOptions=-Dlog4j.configuration=file:/home/ubuntu/log4j.properties" sfmta.jar
+/usr/local/spark/bin/spark-submit --class "live.discoverdataengineering.sample.SparkPi"
+--master spark://ip-10-0-0-20.us-west-2.compute.internal:7077 --deploy-mode cluster
+--conf "spark.executor.extraJavaOptions=-Dlog4j.configuration=file:/home/ubuntu/log4j.properties" sfmta.jar
 
 5. You should see output “Pi is roughly…” and if you goto Spark UI at the master's URL
 (http://ec2-52-11-179-171.us-west-2.compute.amazonaws.com:8080/) , you should see the “Spark Pi” in completed

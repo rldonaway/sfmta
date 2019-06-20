@@ -21,8 +21,8 @@ import spark.implicits._ // this is how $ can work when calling select
 
 val connectionProperties = new Properties()
 connectionProperties.setProperty("Driver", "org.postgresql.Driver")
-connectionProperties.setProperty("user", "insight");
-connectionProperties.setProperty("password", "xxxx"); // fill in password at runtime only
+connectionProperties.setProperty("user", "insight")
+connectionProperties.setProperty("password", "xxxx") // fill in password at runtime only
 
 /**
   * Processes a column to remove the CSV header.
@@ -53,5 +53,27 @@ val expanded = cleaned.withColumn("_list", split($"clean_value", ",")).select(
 ).drop("_list")
 val tosave = expanded.drop("value")
 
-tosave.write.mode(SaveMode.Overwrite).jdbc("jdbc:postgresql://10.0.0.24:5217/sfmta",
-  "sfmta_avl_stg", connectionProperties)
+val db_url = "jdbc:postgresql://10.0.0.24:5217/sfmta"
+tosave.write.mode(SaveMode.Overwrite).jdbc(db_url,"sfmta_avl_stg", connectionProperties)
+// the table sfmta_avl_stg is now populated in the database
+
+// now read the tables with relationships to sfmta_avl
+import org.apache.spark.sql.types._
+
+val cols = Seq("stop_lat", "stop_code", "stop_lon", "stop_url", "stop_id", "stop_desc", "stop_name", "location_type",
+  "zone_id")
+val doubleCols = Set("stop_lat", "stop_lon")
+
+val schema = StructType(cols.map(
+  c => StructField(c, if (doubleCols contains c) DoubleType else StringType)
+))
+
+val stops = spark.read.schema(schema).csv("s3a://insight-donaway-sfmta-join-data/stops.txt")
+stops.write.mode(SaveMode.Overwrite).jdbc(db_url,"sfmta_stops", connectionProperties)
+
+val cols_t = Seq("block_id", "route_id", "original_trip_id", "direction_id", "trip_headsign", "shape_id", "service_id",
+  "trip_id")
+val schema_t = StructType(cols_t.map(c => StructField(c, StringType)))
+val trips = spark.read.schema(schema_t).csv("s3a://insight-donaway-sfmta-join-data/stops.txt")
+trips.write.mode(SaveMode.Overwrite).jdbc(db_url,"sfmta_trips", connectionProperties)
+
