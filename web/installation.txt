@@ -1,0 +1,34 @@
+sudo apt update
+sudo apt upgrade
+git --version
+python3 --version
+sudo apt-get install python3-venv
+python3 -m venv env
+source env/bin/activate
+pip install Flask
+pip freeze > requirements.txt
+deactivate
+sudo apt install python3-pip
+pip install autoenv
+vim .env
+    source env/bin/activate
+    export APP_SETTINGS="config.DevelopmentConfig"
+echo "source `which activate.sh`" >> ~/.bashrc   -- didn't work
+source ~/.bashrc --didn't work
+sudo apt-get install postgresql-client
+
+source env/bin/activate (have to do this to go into virtual environment because .bashrc edit didn't work
+pip install --upgrade pip
+pip install psycopg2-binary (couldn't get psycopg2 to install)
+pip install --upgrade pip wheel
+pip install Flask-SQLAlchemy
+pip install python-dotenv
+pip freeze > requirements.txt
+
+export DATABASE_URL="ip-10-0-0-24.us-west-2.compute.internal:5217/sfmta"
+export DATABASE_USER="insight"
+export DATABASE_PASSWD="enter the password here"
+
+export FLASK_APP=sfmta
+export FLASK_ENV=development
+flask run

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Vehicles{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <table>
+    <thead><th>Vehicle Tag</th></thead>
+    <tbody>
+      {% for vehicle in vehicles %}
+      <tr><td>{{ vehicle.vehicle_tag }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

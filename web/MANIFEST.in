@@ -1,0 +1,4 @@
+graft sfmta/static
+graft sfmta/templates
+graft tests
+global-exclude *.pyc
