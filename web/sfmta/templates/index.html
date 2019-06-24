@@ -1,1 +1,9 @@
-<h1>Welcome to the SFMTA dashboard</h1>
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}SFMTA Dashboard{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <h3>Welcome to the San Francisco Municipal Transportation Agency dashboard</h3>
+{% endblock %}

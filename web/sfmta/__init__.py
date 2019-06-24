@@ -8,10 +8,13 @@ from sfmta.db import db_session
 def create_app(test_config=None):
     """Create and configure an instance of the Flask application."""
     app = Flask(__name__, instance_relative_config=True)
+    app.config.from_mapping(
+        SECRET_KEY = os.environ['FLASK_SECRET_KEY']
+    )
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
-        app.config.from_pyfile("config.py", silent=True)
+        app.config.from_pyfile("config.py")
     else:
         # load the test config if passed in
         app.config.update(test_config)
@@ -36,9 +39,10 @@ def create_app(test_config=None):
     db.init_db()
 
     # apply the blueprints to the app
-    from sfmta import reference
+    from sfmta import reference, location
 
     app.register_blueprint(reference.bp)
+    app.register_blueprint(location.bp)
 
     # make url_for('index') == url_for('blog.index')
     # in another app, you might define a separate main index here with

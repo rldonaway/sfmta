@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Find Location Data{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <div>
+    <form method="post">
+      <label for="datetime">
+          Search Date/Time
+          <a class="setdefault" href="#" onclick="javascript:document.getElementById('datetime').value='2014-08-29 10:00:00'">(default)</a>
+      </label>
+      <input name="datetime" id="datetime" value="{{ request.form['datetime'] }}" required />
+
+      <label for="timewindow">
+          Time Window (minutes)
+          <a class="setdefault" href="#" onclick="javascript:document.getElementById('timewindow').value='60'">(default)</a>
+      </label>
+      <input name="timewindow" id="timewindow" value="{{ request.form['timewindow'] }}" required />
+
+      <input type="submit" value="Search">
+    </form>
+  </div>
+{% endblock %}
