@@ -38,3 +38,6 @@ pip install dist/sfmta-1.0.0-py2.py3-none-any.whl
 pip install gunicorn
 
 gunicorn -w 4 -b :8076 wsgi
+
+export GOOGLE_API_KEY="put key here"
+export FLASK_SECRET_KEY="put a made up key here"
