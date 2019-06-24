@@ -1,11 +1,12 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+GOOGLE_MAPS_KEY = os.environ["GOOGLE_API_KEY"]
+
 class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
-    SECRET_KEY = app_key
 
 
 class ProductionConfig(Config):
