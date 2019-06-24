@@ -22,4 +22,30 @@
       <input type="submit" value="Search">
     </form>
   </div>
+
+  <div>
+    <h2>Stopped Vehicles</h2>
+    <table class="results">
+      <thead>
+        <th>Vehicle</th>
+        <th>Train Assignment</th>
+        <th>When Stopped</th>
+        <th>Stop Length</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+      </thead>
+      <tbody>
+        {% for vehicle in vehicles %}
+          <tr>
+            <td>{{ vehicle[0] }}</td>
+            <td>{{ vehicle[1] }}</td>
+            <td>{{ vehicle[2] }}</td>
+            <td class="centered-cell">{{ vehicle[3] }}</td>
+            <td>{{ vehicle[4] }}</td>
+            <td>{{ vehicle[5] }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 {% endblock %}
