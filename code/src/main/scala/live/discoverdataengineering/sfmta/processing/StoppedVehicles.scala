@@ -41,7 +41,6 @@ object StoppedVehicles {
     log.info("Reading DataFrame data from database")
     val selectFromSfmtaAvl = "(SELECT reading_id, report_time, vehicle_tag, speed, train_assignment, latitude, longitude " +
       "FROM sfmta_avl) as subq"
-    // break up into multiple lines:
     val all_readings_df: DataFrame = readDataFrame(selectFromSfmtaAvl)
     log.info("Filtering DataFrame for speed")
     val stopped_df: DataFrame = all_readings_df.filter(col("speed") === 0)
@@ -55,11 +54,11 @@ object StoppedVehicles {
       sameVehicle && stoppedAfterMoving,"inner")
 
     val last_moving_time_df = joined_df
-      .groupBy(col("stopped.report_time"))
+      .groupBy(col("stopped.vehicle_tag"), col("stopped.report_time"))
       .agg(max("moving.report_time"))
       .withColumnRenamed("max(moving.report_time)", "last_moving_time")
 
-    val timediff: ((Timestamp, Timestamp) => Long) = (startTime: Timestamp, endTime: Timestamp) => (endTime.getTime - startTime.getTime) / 1000
+    val timediff = (startTime: Timestamp, endTime: Timestamp) => (endTime.getTime - startTime.getTime) / 1000
     val timediff_udf = udf(timediff)
 
     // calculate how long the vehicle is stopped
@@ -68,7 +67,7 @@ object StoppedVehicles {
 
     log.info("Find the last time each vehicle was stopped, so we get the maximum stop time only")
     // find the rows where the vehicle is stopped, but the next reading it is moving
-    val timeWindow = Window.orderBy(col("report_time"))
+    val timeWindow = Window.partitionBy(col("vehicle_tag")).orderBy(col("report_time"))
     val last_stopped_df = all_readings_df
       .withColumn("next_speed", lead(col("speed"), 1).over(timeWindow))
       .filter("speed = 0 and next_speed > 0")
@@ -76,15 +75,16 @@ object StoppedVehicles {
     log.info("Putting detail information with the stopped information")
     // join to add the last moving info columns
     val sameTime = col("stopped.report_time") === col("last_moving.report_time")
+    val sameVehicle2 = col("stopped.vehicle_tag") === col("last_moving.vehicle_tag")
     val all_stops_df = last_stopped_df.as("stopped")
-      .join(last_moving_info_df.as("last_moving"), sameTime,"inner")
+      .join(last_moving_info_df.as("last_moving"), sameTime && sameVehicle2,"inner")
 
     // get relevant columns; put longest stops first
-    val top_stops_df = all_stops_df.select("reading_id", "stopped.report_time", "vehicle_tag", "speed",
-      "train_assignment", "latitude", "longitude", "last_moving_time", "stopped_for")
+    val top_stops_df = all_stops_df.select("reading_id", "stopped.report_time", "stopped.vehicle_tag",
+      "speed", "train_assignment", "latitude", "longitude", "last_moving_time", "stopped_for")
 
     log.info("Writing results to the database")
-    top_stops_df.filter(col("stopped_for") > 10).write
+    top_stops_df.filter(col("stopped_for") > 300).write
       .format("jdbc")
       .mode(SaveMode.Overwrite)
       .option("url", sc.getConf.get("spark.database.host"))
