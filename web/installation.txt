@@ -1,3 +1,5 @@
+http://flask.pocoo.org/docs/1.0/tutorial/
+
 sudo apt update
 sudo apt upgrade
 git --version
@@ -41,3 +43,6 @@ gunicorn -w 4 -b :8076 wsgi
 
 export GOOGLE_API_KEY="put key here"
 export FLASK_SECRET_KEY="put a made up key here"
+
+access remotely:
+http://ec2-34-219-55-157.us-west-2.compute.amazonaws.com:8076

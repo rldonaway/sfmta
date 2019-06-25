@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d9819b4a-bcac-4d30-87b4-893f38d6d07d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/modules/sfmta.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/sfmta.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicles.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/ingestion/ingest.sc" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/ingestion/ingest.sc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicle.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicle.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/installation.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../web/installation.txt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -79,19 +81,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/ingestion/ingest.sc">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicle.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" selection-start-line="20" selection-end-line="20" />
+            <state relative-caret-position="292">
+              <caret line="36" column="86" selection-start-line="36" selection-start-column="86" selection-end-line="36" selection-end-column="86" />
+              <folding>
+                <element signature="e#55#80#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicle.scala">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicles.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="21" column="47" lean-forward="true" selection-start-line="21" selection-start-column="47" selection-end-line="21" selection-end-column="47" />
+            <state relative-caret-position="173">
+              <caret line="70" column="40" selection-start-line="70" selection-start-column="40" selection-end-line="70" selection-end-column="40" />
               <folding>
                 <element signature="e#55#80#0" expanded="true" />
               </folding>
@@ -109,6 +114,11 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>report_time</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
@@ -125,13 +135,14 @@
         <option value="$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sample/sample-instructions.txt" />
         <option value="$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/ingestion/ingest.sc" />
         <option value="$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicle.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicles.scala" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="18" />
-    <option name="y" value="23" />
-    <option name="width" value="1654" />
+    <option name="x" value="72" />
+    <option name="y" value="183" />
+    <option name="width" value="1601" />
     <option name="height" value="782" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -179,15 +190,6 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="scala" type="462c0819:PsiDirectoryNode" />
               <item name="discoverdataengineering" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sfmta" type="b2602c69:ProjectViewProjectNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="scala" type="462c0819:PsiDirectoryNode" />
-              <item name="discoverdataengineering" type="462c0819:PsiDirectoryNode" />
-              <item name="sample" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sfmta" type="b2602c69:ProjectViewProjectNode" />
@@ -245,6 +247,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="live.discoverdataengineering.sfmta.processing" />
       <recent name="live.discoverdataengineering.sample" />
     </key>
   </component>
@@ -287,6 +290,7 @@
     </option>
     <option name="modificationStamps">
       <map>
+        <entry key="$PROJECT_DIR$" value="3121296971000" />
         <entry key="$PROJECT_DIR$/build.sbt" value="1899157776" />
         <entry key="$PROJECT_DIR$/project/build.properties" value="1396028727" />
         <entry key="$PROJECT_DIR$/project/plugins.sbt" value="0" />
@@ -300,6 +304,7 @@
         <entry key="$PROJECT_DIR$/../../../EPFL/patmat" value="PREVIEW" />
         <entry key="$PROJECT_DIR$/../../../EPFL/recfun" value="PREVIEW" />
         <entry key="$PROJECT_DIR$/../../../Example" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$" value="RE_IMPORT" />
       </map>
     </option>
   </component>
@@ -322,14 +327,18 @@
       <workItem from="1560910867475" duration="230000" />
       <workItem from="1560959088285" duration="11137000" />
       <workItem from="1561043688764" duration="772000" />
+      <workItem from="1561145572666" duration="1059000" />
+      <workItem from="1561351070734" duration="3672000" />
+      <workItem from="1561400144181" duration="11083000" />
+      <workItem from="1561426790549" duration="2118000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36136000" />
+    <option name="totallyTimeSpent" value="54068000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="18" y="23" width="1654" height="782" extended-state="0" />
+    <frame x="72" y="183" width="1601" height="782" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Image Layers" order="0" />
@@ -338,16 +347,16 @@
       <window_info id="Favorites" order="3" sideWeight="0.5026178" side_tool="true" weight="0.25" />
       <window_info id="Learn" order="4" />
       <window_info id="Designer" order="5" />
-      <window_info active="true" content_ui="combo" id="Project" order="6" sideWeight="0.4973822" visible="true" weight="0.2748139" />
+      <window_info active="true" content_ui="combo" id="Project" order="6" sideWeight="0.4973822" visible="true" weight="0.29762667" />
       <window_info id="Structure" order="7" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="sbt-shell-toolwindow" order="0" weight="0.3290398" />
+      <window_info anchor="bottom" id="sbt-shell-toolwindow" order="0" weight="0.3289855" />
       <window_info anchor="bottom" id="Terminal" order="1" />
       <window_info anchor="bottom" id="Event Log" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Docker" order="3" show_stripe_button="false" />
       <window_info anchor="bottom" id="Java Enterprise" order="4" />
       <window_info anchor="bottom" id="Database Changes" order="5" />
       <window_info anchor="bottom" id="Version Control" order="6" />
-      <window_info anchor="bottom" id="Build" order="7" weight="0.3290398" />
+      <window_info anchor="bottom" id="Build" order="7" visible="true" weight="0.3289855" />
       <window_info anchor="bottom" id="Message" order="8" />
       <window_info anchor="bottom" id="Find" order="9" />
       <window_info anchor="bottom" id="Run" order="10" />
@@ -415,6 +424,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicle.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="292">
+          <caret line="36" column="86" selection-start-line="36" selection-start-column="86" selection-end-line="36" selection-end-column="86" />
+          <folding>
+            <element signature="e#55#80#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/ingestion/ingest.sc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sample/sample-instructions.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -422,17 +448,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/ingestion/ingest.sc">
+    <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicles.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicle.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="47" lean-forward="true" selection-start-line="21" selection-start-column="47" selection-end-line="21" selection-end-column="47" />
+        <state relative-caret-position="173">
+          <caret line="70" column="40" selection-start-line="70" selection-start-column="40" selection-end-line="70" selection-end-column="40" />
           <folding>
             <element signature="e#55#80#0" expanded="true" />
           </folding>

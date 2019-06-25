@@ -11,6 +11,10 @@ into PostgreSQL. These are the detailed steps:
      8. Copy the dataframe into a new table in Postgres
  */
 
+/*
+/usr/local/spark/bin/spark-shell --properties-file insight.conf --jars /usr/local/spark/lib/postgresql-42.2.5.jar --master spark://ip-10-0-0-20.us-west-2.compute.internal:7077
+ */
+
 // set up properties for connecting to database
 import java.util.Properties
 
