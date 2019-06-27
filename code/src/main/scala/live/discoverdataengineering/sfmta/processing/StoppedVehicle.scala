@@ -8,7 +8,7 @@ import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.functions._
 
 /**
-  * Shows the times a single vehicle was stopped.
+  * Shows the times a single vehicle was stopped. This is just a proof of concept.
   */
 object StoppedVehicle {
 
