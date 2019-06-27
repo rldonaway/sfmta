@@ -30,7 +30,6 @@
     <table class="results">
       <thead>
         <th>Vehicle</th>
-        <th>Train Assignment</th>
         <th>When Stopped</th>
         <th>Stop Length (min.)</th>
         <th>Latitude</th>
@@ -40,7 +39,6 @@
         {% for vehicle in vehicles %}
           <tr>
             <td>{{ vehicle[0] }}</td>
-            <td>{{ vehicle[1] }}</td>
             <td>{{ vehicle[2] }}</td>
             <td class="centered-cell">{{ vehicle[3] }}</td>
             <td>{{ vehicle[5] }}</td>

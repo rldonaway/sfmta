@@ -50,7 +50,7 @@ def queryForVehicles(datetime, timewindow, limit = 0):
         vehicle = []
         vehicle.append(rawdata[0][1:])
         vehicle.append('' if rawdata[1] == "\"\"" else rawdata[1])
-        vehicle.append(rawdata[2][1:19])
+        vehicle.append(rawdata[2][1:20])
         vehicle.append(round(float(rawdata[3]) / 60, 1))
         vehicle.append(rawdata[4])
         vehicle.append(rawdata[5][:-1])
