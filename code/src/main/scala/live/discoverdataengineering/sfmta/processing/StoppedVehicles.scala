@@ -1,6 +1,7 @@
 package live.discoverdataengineering.sfmta.processing
 
 import java.sql.Timestamp
+import java.util.Properties
 
 import org.apache.spark.SparkContext
 import org.apache.spark.sql._
@@ -30,7 +31,7 @@ A recommended approach when using YARN would be to use - -num-executors 30 - -ex
 
 1/1000 of the data: 1.5 days (to 2013-01-02 12:00:00) 19 seconds
 1/100 of the data: 15 days (to 2013-01-16 00:00:00) 2.5 minutes
-1/10 of the data: 144 days (to 2013-05-25 00:00:00)
+1/10 of the data: 144 days (to 2013-05-25 00:00:00) 4.8 hours
 all of the data: 1435 days
 
    */
@@ -40,9 +41,31 @@ all of the data: 1435 days
     val lowerDateBound = if (args.length > 0) args(0) else "2013-01-01 00:00:00"
     val upperDateBound = if (args.length > 1) args(1) else "2016-12-06 00:00:00"
 
+    val connectionProperties = new Properties()
+    connectionProperties.setProperty("Driver", "org.postgresql.Driver")
+    connectionProperties.setProperty("user", sc.getConf.get("spark.database.user"))
+    connectionProperties.setProperty("password", sc.getConf.get("spark.database.password"))
+
     log.info("Reading DataFrame data from database")
     val query = "(SELECT vehicle_tag, report_time, speed " +
       s"FROM sfmta_avl WHERE report_time BETWEEN '$lowerDateBound' AND '$upperDateBound') as subq"
+    /*
+    -- partition boundaries queried from vehicles table using the following to split into 6 parts:
+    select percentile_disc(0.17) within group (order by vehicle_tag),
+      percentile_disc(0.33) within group (order by vehicle_tag),
+      percentile_disc(0.50) within group (order by vehicle_tag),
+      percentile_disc(0.67) within group (order by vehicle_tag),
+      percentile_disc(0.83) within group (order by vehicle_tag)
+      from vehicles_t;
+     */
+//    val predicates = Array("vehicle_tag < '6224'",
+//      "vehicle_tag BETWEEN '6224' AND '8445'",
+//      "vehicle_tag > '8445' AND vehicle_tag < 'C15417'",
+//      "vehicle_tag BETWEEN 'C15417' AND 'C7769'",
+//      "vehicle_tag > 'C7769' AND vehicle_tag < 'J2572'",
+//      "vehicle_tag >= 'J2572'")
+//    val all_readings_df: DataFrame = spark.read.jdbc(sc.getConf.get("spark.database.host"),
+//      query, predicates, connectionProperties)
     val all_readings_df: DataFrame = spark.read.format("jdbc")
       .option("url", sc.getConf.get("spark.database.host"))
       .option("driver", "org.postgresql.Driver")

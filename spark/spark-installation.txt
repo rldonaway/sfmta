@@ -33,6 +33,7 @@ ssh-keygen -t rsa -P ""
 cat id_rsa.pub
 copy it
 
+--back on worker...
 nano ./.ssh/authorized_keys
 paste the key at the bottom
 
