@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d9819b4a-bcac-4d30-87b4-893f38d6d07d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/modules/sfmta.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/sfmta.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicles.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicles.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../spark/spark-installation.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../spark/spark-installation.txt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -63,8 +63,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicles.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-561">
-              <caret line="20" column="12" lean-forward="true" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
+            <state relative-caret-position="297">
+              <caret line="77" column="43" lean-forward="true" selection-start-line="77" selection-start-column="43" selection-end-line="77" selection-end-column="43" />
               <folding>
                 <element signature="e#55#80#0" expanded="true" />
               </folding>
@@ -75,7 +75,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicle.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="13">
+            <state relative-caret-position="75">
               <caret line="10" column="82" selection-start-line="10" selection-start-column="82" selection-end-line="10" selection-end-column="82" />
               <folding>
                 <element signature="e#55#80#0" expanded="true" />
@@ -87,7 +87,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/ingestion/ingest.sc">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="227">
+            <state relative-caret-position="465">
               <caret line="31" selection-start-line="27" selection-end-line="31" />
             </state>
           </provider>
@@ -161,89 +161,12 @@
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
-    <navigator currentView="Scope" currentSubView="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope" proportions="" version="1">
+    <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
-      <pane id="Scope">
-        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
-          <expand>
-            <path>
-              <item name="sfmta" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="sfmta" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-            </path>
-            <path>
-              <item name="sfmta" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="sfmta" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="sfmta" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="sfmta" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="sfmta" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="sfmta" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="scala" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="sfmta" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="sfmta" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="scala" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="live" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="sfmta" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="sfmta" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="scala" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="live" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="discoverdataengineering" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="sfmta" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="sfmta" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="scala" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="live" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="discoverdataengineering" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="sfmta" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="sfmta" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="sfmta" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="scala" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="live" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="discoverdataengineering" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="sfmta" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="ingestion" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="sfmta" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="sfmta" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="scala" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="live" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="discoverdataengineering" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="sfmta" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="processing" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -528,7 +451,8 @@
       <workItem from="1561519787444" duration="2471000" />
       <workItem from="1561568028761" duration="23515000" />
       <workItem from="1561660491286" duration="1086000" />
-      <workItem from="1561661612549" duration="11177000" />
+      <workItem from="1561661612549" duration="12647000" />
+      <workItem from="1561733180726" duration="1211000" />
     </task>
     <servers />
   </component>
@@ -565,11 +489,10 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="102522000" />
+    <option name="totallyTimeSpent" value="105203000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="126" width="1601" height="782" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Image Layers" order="0" />
       <window_info id="UI Designer" order="1" />
@@ -577,7 +500,7 @@
       <window_info id="Favorites" order="3" sideWeight="0.5026178" side_tool="true" weight="0.25" />
       <window_info id="Learn" order="4" weight="0.32969853" />
       <window_info id="Designer" order="5" />
-      <window_info content_ui="combo" id="Project" order="6" sideWeight="0.4973822" visible="true" weight="0.22963437" />
+      <window_info content_ui="combo" id="Project" order="6" sideWeight="0.4973822" visible="true" weight="0.23220013" />
       <window_info id="Structure" order="7" side_tool="true" weight="0.25" />
       <window_info active="true" anchor="bottom" id="sbt-shell-toolwindow" order="0" visible="true" weight="0.3289855" />
       <window_info anchor="bottom" id="Terminal" order="1" weight="0.3289855" />
@@ -772,13 +695,6 @@
     <entry file="file://$PROJECT_DIR$/plugins.sbt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.sbt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="72" selection-start-line="9" selection-start-column="72" selection-end-line="9" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicleSpec.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1155">
@@ -789,9 +705,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicles.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="77" column="43" lean-forward="true" selection-start-line="77" selection-start-column="43" selection-end-line="77" selection-end-column="43" />
+          <folding>
+            <element signature="e#55#80#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicle.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="13">
+        <state relative-caret-position="75">
           <caret line="10" column="82" selection-start-line="10" selection-start-column="82" selection-end-line="10" selection-end-column="82" />
           <folding>
             <element signature="e#55#80#0" expanded="true" />
@@ -801,18 +727,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/ingestion/ingest.sc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
+        <state relative-caret-position="465">
           <caret line="31" selection-start-line="27" selection-end-line="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/live/discoverdataengineering/sfmta/processing/StoppedVehicles.scala">
+    <entry file="file://$PROJECT_DIR$/build.sbt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-561">
-          <caret line="20" column="12" lean-forward="true" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
-          <folding>
-            <element signature="e#55#80#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="135">
+          <caret line="9" column="72" selection-start-line="9" selection-start-column="72" selection-end-line="9" selection-end-column="72" />
         </state>
       </provider>
     </entry>

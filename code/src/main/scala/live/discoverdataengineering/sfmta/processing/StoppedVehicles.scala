@@ -30,8 +30,8 @@ Assume there are 6 nodes available on a cluster with 25 core nodes and 125 GB me
 A recommended approach when using YARN would be to use - -num-executors 30 - -executor-cores 4 - -executor-memory 24G. Which would result in YARN allocating 30 containers with executors, 5 containers per node using up 4 executor cores each. The RAM per container on a node 124/5= 24GB (roughly).
 
 1/1000 of the data: 1.5 days (to 2013-01-02 12:00:00) 19 seconds
-1/100 of the data: 15 days (to 2013-01-16 00:00:00) 2.5 minutes
-1/10 of the data: 144 days (to 2013-05-25 00:00:00) 4.8 hours
+1/100 of the data: 15 days (to 2013-01-16 00:00:00) 1 minutes
+1/10 of the data: 144 days (to 2013-05-25 00:00:00) 1.7 hours
 all of the data: 1435 days
 
    */
@@ -72,12 +72,12 @@ all of the data: 1435 days
       .option("dbtable", query)
       .option("user", sc.getConf.get("spark.database.user"))
       .option("password", sc.getConf.get("spark.database.password"))
-      .option("numPartitions", 24)
+      .option("numPartitions", 18)
       .option("partitionColumn", "report_time")
       .option("lowerBound", lowerDateBound)
       .option("upperBound", upperDateBound)
       .load()
-    all_readings_df.repartitionByRange(24, col("vehicle_tag"))
+    all_readings_df.repartitionByRange(18, col("vehicle_tag"))
     all_readings_df.cache()
 
     log.info("Filtering DataFrame for speed")

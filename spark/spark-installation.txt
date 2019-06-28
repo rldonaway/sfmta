@@ -133,3 +133,12 @@ wget https://jdbc.postgresql.org/download/postgresql-42.2.5.jar
 ... changed the spark-defaults.conf to include the postgres jar on the classpath
 ... hopefully this will allow it to find the driver automatically
 
+
+ended up using:
+
+export SPARK_MASTER_HOST=10.0.0.20
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export SPARK_WORKER_CORES=7
+export SPARK_WORKER_MEMORY=30G
+export SPARK_EXECUTOR_CORES=2
+export SPARK_EXECUTOR_MEMORY=9G
