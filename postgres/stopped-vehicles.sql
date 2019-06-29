@@ -323,7 +323,9 @@ CREATE INDEX sfmta_stops_det_vehicle_idx ON sfmta_stops_det(vehicle_tag);
 CREATE INDEX sfmta_stops_det_length_idx ON sfmta_stops_det(stopped_for);
 
 --get data for 4pm
-SELECT report_time, vehicle_tag, stopped_for, latitude, longitude
+SELECT vehicle_tag, report_time, stopped_for, latitude, longitude
 FROM sfmta_stops_det
 WHERE hour_of_day = 16
 AND stopped_for > 600;
+
+SELECT st.vehicle_tag AS veh_tag, avl.train_assignment AS train_asng, st.stopped_at, st.stopped_for, avl.latitude, avl.longitude
