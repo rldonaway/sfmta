@@ -24,7 +24,7 @@ pip freeze > requirements.txt
 
 export DATABASE_URL="ip-10-0-0-24.us-west-2.compute.internal:5217/sfmta"
 --or--
-export DATABASE_URL="ec2-34-219-31-252.us-west-2.compute.amazonaws.com:5217/sfmta"
+export DATABASE_URL="ec2-52-41-177-25.us-west-2.compute.amazonaws.com:5217/sfmta"
 export DATABASE_USER="insight"
 export DATABASE_PASSWD="enter the password here"
 

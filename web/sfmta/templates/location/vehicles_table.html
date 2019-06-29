@@ -1,0 +1,26 @@
+{% if vehicles %}
+  <div>
+    <h2>Stopped Vehicles</h2>
+    <a href="{{ url_for('location.stopped_on_map', datetime=request.form['datetime'], window=request.form['timewindow']) }}">Show Top 25 On Map</a>
+    <table class="results">
+      <thead>
+        <th>Vehicle</th>
+        <th>When Stopped</th>
+        <th>Stop Length (min.)</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+      </thead>
+      <tbody>
+        {% for vehicle in vehicles %}
+          <tr>
+            <td>{{ vehicle[0] }}</td>
+            <td>{{ vehicle[2] }}</td>
+            <td class="centered-cell">{{ vehicle[3] }}</td>
+            <td>{{ vehicle[5] }}</td>
+            <td>{{ vehicle[4] }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endif %}

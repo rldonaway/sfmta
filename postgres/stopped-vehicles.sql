@@ -286,5 +286,44 @@ ORDER BY st.stopped_for DESC;
 
 END; 
 $$ LANGUAGE plpgsql;
+--
+--END list_stopped_vehicles
+--
 
 SELECT list_stopped_vehicles('2014-01-04 10:05:00', 5);
+
+--Spark creates this table after its processing:
+sfmta_stops(report_time, vehicle_tag, stopped_for)
+
+--how many stops per day on average?
+ALTER TABLE sfmta_stops ADD COLUMN hour_of_day integer;
+
+UPDATE sfmta_stops SET hour_of_day = date_part('hour', report_time);
+
+SELECT hour_of_day, count(*), avg(stopped_for)
+FROM sfmta_stops_10 --changer
+GROUP BY hour_of_day
+ORDER BY hour_of_day;
+
+--to speed up joins
+CREATE INDEX sfmta_stops_hour_idx ON sfmta_stops(hour_of_day);
+CREATE INDEX sfmta_stops_time_idx ON sfmta_stops(report_time);
+CREATE INDEX sfmta_stops_vehicle_idx ON sfmta_stops(vehicle_tag);
+CREATE INDEX sfmta_stops_length_idx ON sfmta_stops(stopped_for);
+
+CREATE TABLE sfmta_stops_det AS
+SELECT sfs.report_time, sfs.vehicle_tag, sfs.stopped_for, sfs.hour_of_day, avl.latitude, avl.longitude
+FROM sfmta_stops sfs
+JOIN sfmta_avl avl ON sfs.vehicle_tag = avl.vehicle_tag AND sfs.report_time = avl.report_time;
+
+--to speed up webapp queries
+CREATE INDEX sfmta_stops_det_hour_idx ON sfmta_stops_det(hour_of_day);
+CREATE INDEX sfmta_stops_det_time_idx ON sfmta_stops_det(report_time);
+CREATE INDEX sfmta_stops_det_vehicle_idx ON sfmta_stops_det(vehicle_tag);
+CREATE INDEX sfmta_stops_det_length_idx ON sfmta_stops_det(stopped_for);
+
+--get data for 4pm
+SELECT report_time, vehicle_tag, stopped_for, latitude, longitude
+FROM sfmta_stops_det
+WHERE hour_of_day = 16
+AND stopped_for > 600;
