@@ -17,17 +17,18 @@ class StoppedVehicleSpec
   import spark.implicits._
 
   val all_readings = Seq(
-    ("B456", Timestamp.valueOf("2013-01-10 11:15:20"), 5),
-    ("B456", Timestamp.valueOf("2013-01-10 11:16:00"), 0),
-    ("B456", Timestamp.valueOf("2013-01-10 11:16:20"), 0),
-    ("B456", Timestamp.valueOf("2013-01-10 11:16:50"), 12),
-    ("C789", Timestamp.valueOf("2013-01-10 11:15:20"), 7),
-    ("C789", Timestamp.valueOf("2013-01-10 11:16:00"), 10),
-    ("C789", Timestamp.valueOf("2013-01-10 11:16:20"), 0),
-    ("C789", Timestamp.valueOf("2013-01-10 11:16:50"), 9)
-  ).toDF("vehicle_tag", "report_time", "speed")
+    (1, "B456", Timestamp.valueOf("2013-01-10 11:10:20"), 5),
+    (2, "B456", Timestamp.valueOf("2013-01-10 11:16:00"), 0),
+    (3, "B456", Timestamp.valueOf("2013-01-10 11:16:20"), 0),
+    (4, "B456", Timestamp.valueOf("2013-01-10 11:16:50"), 12),
+    (5, "C789", Timestamp.valueOf("2013-01-10 11:15:20"), 7),
+    (6, "C789", Timestamp.valueOf("2013-01-10 11:16:00"), 10),
+    (7, "C789", Timestamp.valueOf("2013-01-10 11:16:20"), 0),
+    (8, "C789", Timestamp.valueOf("2013-01-10 11:16:50"), 9)
+  ).toDF("reading_id", "vehicle_tag", "report_time", "speed")
 
   val stoppedSchema = List(
+    StructField("reading_id", IntegerType, false),
     StructField("vehicle_tag", StringType),
     StructField("report_time", TimestampType),
     StructField("speed", IntegerType, false),
@@ -35,8 +36,8 @@ class StoppedVehicleSpec
   )
 
   val stopped = Seq(
-    Row("B456", Timestamp.valueOf("2013-01-10 11:16:20"), 0, 12),
-    Row("C789", Timestamp.valueOf("2013-01-10 11:16:20"), 0, 9)
+    Row(3, "B456", Timestamp.valueOf("2013-01-10 11:16:20"), 0, 12),
+    Row(7, "C789", Timestamp.valueOf("2013-01-10 11:16:20"), 0, 9)
   )
 
   it("extracts the last stopped record") {
@@ -53,14 +54,15 @@ class StoppedVehicleSpec
   }
 
   val moving = Seq(
-    Row("B456", Timestamp.valueOf("2013-01-10 11:15:20"), 5),
-    Row("B456", Timestamp.valueOf("2013-01-10 11:16:50"), 12),
-    Row("C789", Timestamp.valueOf("2013-01-10 11:15:20"), 7),
-    Row("C789", Timestamp.valueOf("2013-01-10 11:16:00"), 10),
-    Row("C789", Timestamp.valueOf("2013-01-10 11:16:50"), 9)
+    Row(1, "B456", Timestamp.valueOf("2013-01-10 11:10:20"), 5),
+    Row(4, "B456", Timestamp.valueOf("2013-01-10 11:16:50"), 12),
+    Row(5, "C789", Timestamp.valueOf("2013-01-10 11:15:20"), 7),
+    Row(6, "C789", Timestamp.valueOf("2013-01-10 11:16:00"), 10),
+    Row(8, "C789", Timestamp.valueOf("2013-01-10 11:16:50"), 9)
   )
 
   val movingSchema = List(
+    StructField("reading_id", IntegerType, false),
     StructField("vehicle_tag", StringType),
     StructField("report_time", TimestampType),
     StructField("speed", IntegerType, false)
@@ -86,7 +88,7 @@ class StoppedVehicleSpec
   )
 
   val last_moving = Seq(
-    Row("B456", Timestamp.valueOf("2013-01-10 11:16:20"), Timestamp.valueOf("2013-01-10 11:15:20")),
+    Row("B456", Timestamp.valueOf("2013-01-10 11:16:20"), Timestamp.valueOf("2013-01-10 11:10:20")),
     Row("C789", Timestamp.valueOf("2013-01-10 11:16:20"), Timestamp.valueOf("2013-01-10 11:16:00"))
   )
 
@@ -117,12 +119,12 @@ class StoppedVehicleSpec
     StructField("vehicle_tag", StringType),
     StructField("report_time", TimestampType),
     StructField("last_moving_time", TimestampType),
-    StructField("stopped_for", IntegerType)
+    StructField("stopped_for", LongType)
   )
 
   val stop_length = Seq(
-    Row("B456", Timestamp.valueOf("2013-01-10 11:16:20"), Timestamp.valueOf("2013-01-10 11:15:20"), 60),
-    Row("C789", Timestamp.valueOf("2013-01-10 11:16:20"), Timestamp.valueOf("2013-01-10 11:16:00"), 20)
+    Row("B456", Timestamp.valueOf("2013-01-10 11:16:20"), Timestamp.valueOf("2013-01-10 11:10:20"), 360L),
+    Row("C789", Timestamp.valueOf("2013-01-10 11:16:20"), Timestamp.valueOf("2013-01-10 11:16:00"), 20L)
   )
 
   it("calculates the stop lengths") {
@@ -149,14 +151,13 @@ class StoppedVehicleSpec
     val actualDF = prepareForDatabaseTable(stop_length_df)
 
     val dbReadySchema = List(
-      StructField("vehicle_tag", StringType),
       StructField("report_time", TimestampType),
-      StructField("stopped_for", IntegerType)
+      StructField("vehicle_tag", StringType),
+      StructField("stopped_for", LongType)
     )
 
     val db_ready = Seq(
-      Row("B456", Timestamp.valueOf("2013-01-10 11:16:20"), 60),
-      Row("C789", Timestamp.valueOf("2013-01-10 11:16:20"), 20)
+      Row(Timestamp.valueOf("2013-01-10 11:16:20"), "B456", 360L)
     )
 
     val expectedDF = spark.createDataFrame(

@@ -20,20 +20,14 @@ object StoppedVehicles {
   /*
   running...
   (sh /usr/local/spark/sbin/start-all.sh; cd ~)
-  /usr/local/spark/bin/spark-submit --class "live.discoverdataengineering.sfmta.processing.StoppedVehicles" --properties-file insight.conf --master spark://ip-10-0-0-20.us-west-2.compute.internal:7077 --deploy-mode cluster --conf "spark.network.timeout=10000000" --conf "spark.executor.extraJavaOptions=-Dlog4j.configuration=file:/home/ubuntu/log4j.properties" --jars /usr/local/spark/lib/postgresql-42.2.5.jar sfmta.jar
-  /usr/local/spark/bin/spark-submit --class "live.discoverdataengineering.sfmta.processing.StoppedVehicles" --properties-file insight.conf --master spark://ip-10-0-0-20.us-west-2.compute.internal:7077 --deploy-mode cluster --conf "spark.network.timeout=10000000" --conf "spark.executor.extraJavaOptions=-Dlog4j.configuration=file:/home/ubuntu/log4j.properties" --jars /usr/local/spark/lib/postgresql-42.2.5.jar sfmta.jar "2013-01-01 00:00:00" "2013-01-16 00:00:00"
-  settings to try:
-  --driver-memory 30G --executor-memory 14G --num-executors 7 --executor-cores 8 --conf spark.driver.maxResultSize=4g --conf spark.executor.heartbeatInterval=10000000
-  --executor-cores 5 means that each executor can run a maximum of five tasks at the same time
+  /usr/local/spark/bin/spark-submit --class "live.discoverdataengineering.sfmta.processing.StoppedVehicles" --deploy-mode cluster --properties-file insight.conf --master spark://ip-10-0-0-20.us-west-2.compute.internal:7077 --conf "spark.network.timeout=10000000" --conf "spark.executor.extraJavaOptions=-Dlog4j.configuration=file:/home/ubuntu/log4j.properties" --jars /usr/local/spark/lib/postgresql-42.2.5.jar sfmta.jar
+  /usr/local/spark/bin/spark-submit --class "live.discoverdataengineering.sfmta.processing.StoppedVehicles" --deploy-mode cluster --properties-file insight.conf --master spark://ip-10-0-0-20.us-west-2.compute.internal:7077 --conf "spark.network.timeout=10000000" --conf "spark.executor.extraJavaOptions=-Dlog4j.configuration=file:/home/ubuntu/log4j.properties" --jars /usr/local/spark/lib/postgresql-42.2.5.jar sfmta.jar "2013-01-01 00:00:00" "2013-01-16 00:00:00"
 
-Assume there are 6 nodes available on a cluster with 25 core nodes and 125 GB memory per node
-A recommended approach when using YARN would be to use - -num-executors 30 - -executor-cores 4 - -executor-memory 24G. Which would result in YARN allocating 30 containers with executors, 5 containers per node using up 4 executor cores each. The RAM per container on a node 124/5= 24GB (roughly).
-
-1/1000 of the data: 1.5 days (to 2013-01-02 12:00:00) 19 seconds
-1/100 of the data: 15 days (to 2013-01-16 00:00:00) 1 minutes
-1/10 of the data: 144 days (to 2013-05-25 00:00:00) 1.7 hours
-all of the data: 1435 days
-
+  testing with different loads:
+  1/1000 of the data: 1.5 days (to 2013-01-02 12:00:00) 19 seconds
+  1/100 of the data: 15 days (to 2013-01-16 00:00:00) 1 minute
+  1/10 of the data: 144 days (to 2013-05-25 00:00:00) 52 min
+  all of the data: 1435 days
    */
   def main(args: Array[String]) {
     val sc: SparkContext = SparkContext.getOrCreate
@@ -47,37 +41,20 @@ all of the data: 1435 days
     connectionProperties.setProperty("password", sc.getConf.get("spark.database.password"))
 
     log.info("Reading DataFrame data from database")
-    val query = "(SELECT vehicle_tag, report_time, speed " +
+    val query = "(SELECT reading_id, vehicle_tag, report_time, speed " +
       s"FROM sfmta_avl WHERE report_time BETWEEN '$lowerDateBound' AND '$upperDateBound') as subq"
-    /*
-    -- partition boundaries queried from vehicles table using the following to split into 6 parts:
-    select percentile_disc(0.17) within group (order by vehicle_tag),
-      percentile_disc(0.33) within group (order by vehicle_tag),
-      percentile_disc(0.50) within group (order by vehicle_tag),
-      percentile_disc(0.67) within group (order by vehicle_tag),
-      percentile_disc(0.83) within group (order by vehicle_tag)
-      from vehicles_t;
-     */
-//    val predicates = Array("vehicle_tag < '6224'",
-//      "vehicle_tag BETWEEN '6224' AND '8445'",
-//      "vehicle_tag > '8445' AND vehicle_tag < 'C15417'",
-//      "vehicle_tag BETWEEN 'C15417' AND 'C7769'",
-//      "vehicle_tag > 'C7769' AND vehicle_tag < 'J2572'",
-//      "vehicle_tag >= 'J2572'")
-//    val all_readings_df: DataFrame = spark.read.jdbc(sc.getConf.get("spark.database.host"),
-//      query, predicates, connectionProperties)
     val all_readings_df: DataFrame = spark.read.format("jdbc")
       .option("url", sc.getConf.get("spark.database.host"))
       .option("driver", "org.postgresql.Driver")
       .option("dbtable", query)
       .option("user", sc.getConf.get("spark.database.user"))
       .option("password", sc.getConf.get("spark.database.password"))
-      .option("numPartitions", 18)
+      .option("numPartitions", 8)
       .option("partitionColumn", "report_time")
       .option("lowerBound", lowerDateBound)
       .option("upperBound", upperDateBound)
       .load()
-    all_readings_df.repartitionByRange(18, col("vehicle_tag"))
+    all_readings_df.repartitionByRange(8, col("vehicle_tag"))
     all_readings_df.cache()
 
     log.info("Filtering DataFrame for speed")
@@ -128,8 +105,9 @@ all of the data: 1435 days
     // find when a vehicle is stopped, what time was it last moving... this will help calculate how long it was stopped
     val sameVehicle = col("stopped.vehicle_tag") === col("moving.vehicle_tag")
     val stoppedAfterMoving = col("stopped.report_time") > col("moving.report_time")
+    val closeInTime = col("stopped.reading_id") - col("moving.reading_id") < 300
     val joined_df = stopped_df.as("stopped").join(moving_df.as("moving"),
-      sameVehicle && stoppedAfterMoving,"inner")
+      closeInTime && sameVehicle && stoppedAfterMoving,"inner")
     joined_df
       .groupBy(col("stopped.vehicle_tag"), col("stopped.report_time"))
       .agg(max("moving.report_time"))
@@ -138,17 +116,15 @@ all of the data: 1435 days
 
   /** calculate how long the vehicle is stopped */
   def calculateStopLength(last_moving_time_df: DataFrame) = {
-    val timediff = (startTime: Timestamp, endTime: Timestamp) => (endTime.getTime - startTime.getTime) / 1000
-    val timediff_udf = udf(timediff)
     last_moving_time_df.withColumn("stopped_for",
-      timediff_udf(col("last_moving_time"), col("report_time")))
+      unix_timestamp(col("report_time")) - unix_timestamp(col("last_moving_time")))
   }
 
   /** get relevant columns; only vehicles stopped for a long time */
   def prepareForDatabaseTable(all_stops_df: DataFrame) = {
     all_stops_df
-      .select("stopped.report_time", "stopped.vehicle_tag", "stopped_for")
-      .filter(col("stopped_for") > 300 && col("stopped_for") < 7200)
+      .select("report_time", "vehicle_tag", "stopped_for")
+      .filter(col("stopped_for") > 300L && col("stopped_for") < 7200L)
   }
 
 }
