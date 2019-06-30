@@ -27,7 +27,8 @@ object StoppedVehicles {
   1/1000 of the data: 1.5 days (to 2013-01-02 12:00:00) 19 seconds
   1/100 of the data: 15 days (to 2013-01-16 00:00:00) 1 minute
   1/10 of the data: 144 days (to 2013-05-25 00:00:00) 52 min
-  all of the data: 1435 days
+  all of 2015: 365 days, 2.2 hours
+  all of the data: 1435 days, ? (out of heap space... need more workers)
    */
   def main(args: Array[String]) {
     val sc: SparkContext = SparkContext.getOrCreate

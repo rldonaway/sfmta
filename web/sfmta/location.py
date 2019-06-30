@@ -25,7 +25,7 @@ def stopped_by_date():
         if error is not None:
             flash(error)
         else:
-            vehicles = query_for_vehicles(datetime, time_window)
+            vehicles = query_for_vehicles(datetime, time_window, 500)
             return render_template("location/date_stopped.html", vehicles=vehicles)
 
     return render_template("location/date_stopped.html")
@@ -51,7 +51,7 @@ def stopped_by_time_hist():
         if error is not None:
             flash(error)
         else:
-            vehicles = query_for_vehicles_hist(hour_int, 60*min_int, 60*max_int)
+            vehicles = query_for_vehicles_hist(hour_int, 60*min_int, 60*max_int, 300)
             return render_template("location/time_stopped.html", vehicles=vehicles)
 
     return render_template("location/time_stopped.html")
@@ -61,5 +61,5 @@ def stopped_by_time_hist():
 def stopped_on_heatmap(hour, min, max):
     (error, hour_int, min_int, max_int) = validate_time_input(hour, min, max)
     if error is None:
-        vehicles = query_for_vehicles_hist(hour_int, min_int, max_int, 25)
+        vehicles = query_for_vehicles_hist(hour_int, 60*min_int, 60*max_int, 3000)
     return render_template("/location/heatmap_stopped.html", vehicles=vehicles, googleAPIkey=GOOGLE_MAPS_KEY)

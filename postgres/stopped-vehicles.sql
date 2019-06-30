@@ -301,7 +301,7 @@ ALTER TABLE sfmta_stops ADD COLUMN hour_of_day integer;
 UPDATE sfmta_stops SET hour_of_day = date_part('hour', report_time);
 
 SELECT hour_of_day, count(*), avg(stopped_for)
-FROM sfmta_stops_10 --changer
+FROM sfmta_stops
 GROUP BY hour_of_day
 ORDER BY hour_of_day;
 
@@ -327,5 +327,3 @@ SELECT vehicle_tag, report_time, stopped_for, latitude, longitude
 FROM sfmta_stops_det
 WHERE hour_of_day = 16
 AND stopped_for > 600;
-
-SELECT st.vehicle_tag AS veh_tag, avl.train_assignment AS train_asng, st.stopped_at, st.stopped_for, avl.latitude, avl.longitude
