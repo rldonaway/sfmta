@@ -16,7 +16,7 @@ class Vehicle(Base):
 
 
 class VehicleStop(Base):
-    __tablename__ = 'sfmta_stops_det_10'
+    __tablename__ = 'sfmta_stops_det'
 
     vehicle_tag = Column(String(), primary_key=True)
     report_time = Column(DateTime(), primary_key=True)
