@@ -43,6 +43,7 @@ def validate_time_input(hour_of_day, min_stop, max_stop):
             error = "If entered, minimum stop length must be positive."
     except ValueError:
         error = 'Please enter an integer value for the minimum stop length.'
+        min_stop_int = -1
 
     try:
         max_stop_int = int(max_stop)
@@ -50,6 +51,7 @@ def validate_time_input(hour_of_day, min_stop, max_stop):
             error = "If entered, maximum stop length must be positive."
     except ValueError:
         error = 'Please enter an integer value for the maximum stop length.'
+        max_stop_int = -1
 
     return error, hour_of_day_int, min_stop_int, max_stop_int
 
